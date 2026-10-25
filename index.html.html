@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 
+      ==========================================================================
+      SMART CREDIT & PURCHASE LEDGER SYSTEM (PRO)
+      DEVELOPER SIGNATURE & WATERMARK (DO NOT ALTER OR REMOVE)
+      Author: Bereket Haileselassie
+      Platform: Ye-Buna Digital Product
+      Product Code: YB-LEDGER-PRO-2026-SECURE
+      Verification Key: YB_SECURE_9988776655
+      Copyright (c) 2026 All Rights Reserved.
+      ==========================================================================
+    -->
+    <meta name="author" content="Bereket Haileselassie - Ye-Buna">
+    <meta name="product-id" content="YB-LEDGER-PRO-2026-SECURE">
+    <title>Smart Credit & Purchase Ledger System (Pro)</title>
+    <style>
+        :root {
+            --primary: #1f4e78;
+            --primary-dark: #143452;
+            --secondary: #2f5597;
+            --bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --border: #dde2e5;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding: 10px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        @media (min-width: 600px) {
+            header { flex-direction: row; justify-content: space-between; align-items: center; padding: 20px 25px; }
+            body { padding: 20px; }
+        }
+        header h1 { font-size: 18px; }
+        @media (min-width: 600px) { header h1 { font-size: 22px; } }
+        header p { font-size: 12px; opacity: 0.85; }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-header {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-header:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn {
+            padding: 10px 18px; border: none; background: #e2e8f0; color: #4a5568;
+            font-size: 14px; font-weight: bold; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s;
+        }
+        .tab-btn.active { background: var(--primary); color: white; }
+
+        .card {
+            background: var(--card-bg); border-radius: 8px; padding: 15px;
+            margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid var(--border);
+        }
+        @media (min-width: 600px) { .card { padding: 20px; margin-bottom: 20px; } }
+
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 15px; }
+        @media (min-width: 600px) { .form-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } }
+        @media (min-width: 900px) { .form-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 13px; font-weight: 600; color: #4a5568; }
+        .form-group input, .form-group select {
+            padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; outline: none; background: #fff; width: 100%;
+        }
+        .form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(31, 78, 120, 0.1); }
+
+        .btn { padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px; width: 100%; }
+        @media (min-width: 600px) { .btn { width: auto; } }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: #cbd5e0; color: #2d3748; }
+
+        /* Search & Filter Bar Styling */
+        .search-filter-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        @media (min-width: 600px) {
+            .search-filter-bar {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        .search-filter-bar input, .search-filter-bar select {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+        }
+
+        .summary-cards { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
+        @media (min-width: 600px) { .summary-cards { grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; } }
+        .summary-box { background: white; padding: 15px; border-radius: 8px; border-left: 5px solid var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .summary-box h3 { font-size: 12px; color: #718096; margin-bottom: 4px; }
+        .summary-box .amount { font-size: 18px; font-weight: bold; color: var(--primary); }
+
+        .desktop-table { display: none; }
+        .mobile-cards { display: flex; flex-direction: column; gap: 12px; }
+
+        .record-card {
+            background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 8px;
+        }
+        .record-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #edf2f7; padding-bottom: 6px; }
+        .record-title { font-weight: bold; color: var(--primary); font-size: 14px; }
+        .record-date { font-size: 12px; color: #718096; }
+        .record-body { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px; }
+        .record-item span { color: #718096; font-size: 11px; display: block; }
+        .record-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #edf2f7; padding-top: 6px; margin-top: 2px; }
+        
+        .badge { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; }
+        .badge-paid { background: #d4edda; color: #155724; }
+        .badge-partial { background: #fff3cd; color: #856404; }
+        .badge-unpaid { background: #f8d7da; color: #721c24; }
+
+        .action-btn { background: #fff5f5; border: 1px solid #feb2b2; color: var(--danger); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .edit-btn { background: #ebf8ff; border: 1px solid #bee3f8; color: var(--primary); margin-right: 5px; }
+
+        @media (min-width: 850px) {
+            .mobile-cards { display: none; }
+            .desktop-table { display: block; overflow-x: auto; }
+            table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+            th { background: var(--primary); color: white; padding: 12px; font-weight: 600; font-size: 13px; }
+            td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+            tr:nth-child(even) { background-color: #f8fafc; }
+        }
+
+        /* Guide Section Style */
+        .guide-content { line-height: 1.6; font-size: 14px; color: #2d3748; }
+        .guide-content h3 { color: var(--primary); margin-top: 18px; margin-bottom: 8px; font-size: 16px; border-bottom: 2px solid var(--border); padding-bottom: 4px; }
+        .guide-content ul { padding-left: 20px; margin-bottom: 12px; }
+        .guide-content li { margin-bottom: 6px; }
+        .guide-content p { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Smart Credit & Purchase Ledger System</h1>
+            <p>Advanced Offline Ledger App (Pro Version) — ✓ Verified Digital License: Ye-Buna Product</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-header" onclick="exportCSV()">📊 Excel/CSV</button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" id="salesTabBtn" onclick="switchTab('sales')">የዱቤ ሽያጭ (Sales)</button>
+        <button class="tab-btn" id="purchasesTabBtn" onclick="switchTab('purchases')">የዱቤ ግዥ (Purchases)</button>
+        <button class="tab-btn" id="guideTabBtn" onclick="switchTab('guide')">📖 የአጠቃቀም መመሪያ (User Guide)</button>
+    </div>
+
+    <!-- MAIN VIEW (Sales & Purchases) -->
+    <div id="appMainView">
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-box" style="border-left-color: var(--primary);">
+                <h3>ጠቅላላ ሂሳብ (Total Amount)</h3>
+                <div class="amount" id="totalAmount">0.00 ETB</div>
+            </div>
+            <div class="summary-box" style="border-left-color: var(--success);">
+                <h3>የተከፈለ መጠን (Total Paid)</h3>
+                <div class="amount" id="totalPaid" style="color: var(--success);">0.00 ETB</div>
+            </div>
+            <div class="summary-box" style="border-left-color: var(--danger);">
+                <h3>ቀሪ ውዝፍ ዕዳ (Balance Due)</h3>
+                <div class="amount" id="totalBalance" style="color: var(--danger);">0.00 ETB</div>
+            </div>
+        </div>
+
+        <!-- Entry Form Card -->
+        <div class="card">
+            <h3 style="margin-bottom: 15px; color: var(--primary); font-size: 16px;" id="formTitle">አዲስ የዱቤ ሽያጭ መዝግብ</h3>
+            <form id="ledgerForm" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="editIndex" value="-1">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ቀን (Date)</label>
+                        <input type="date" id="transDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>የደረሰኝ ቁጥር (Invoice No)</label>
+                        <input type="text" id="invNo" placeholder="ምሳሌ፡ INV-001" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="partyLabel">የደንበኛ ስም (Customer Name)</label>
+                        <input type="text" id="partyName" placeholder="ስም ያስገቡ" required>
+                    </div>
+                    <div class="form-group">
+                        <label>የዕቃው/አገልግሎት ዝርዝር (Description)</label>
+                        <input type="text" id="itemDesc" placeholder="ዝርዝር ያስገቡ" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ብዛት (Qty)</label>
+                        <input type="number" id="qty" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ነጠላ ዋጋ (Unit Price)</label>
+                        <input type="number" id="unitPrice" step="0.01" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>የተከፈለ ገንዘብ (Paid Amount)</label>
+                        <input type="number" id="amountPaid" step="0.01" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>የክፍያ መፈጸሚያ ቀን (Due Date)</label>
+                        <input type="date" id="dueDate" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">መዝግብ (Save Entry)</button>
+                    <button type="button" class="btn btn-secondary" id="cancelEditBtn" style="display:none;" onclick="resetForm()">ሰርዝ (Cancel)</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Records Section with Search & Filter -->
+        <div class="card">
+            <div class="search-filter-bar">
+                <input type="text" id="searchInput" placeholder="🔍 በስም ወይም በደረሰኝ ቁጥር ፈልግ..." oninput="renderData()" style="flex:1;">
+                <select id="statusFilter" onchange="renderData()">
+                    <option value="all">ሁሉም ሁኔታዎች (All Status)</option>
+                    <option value="unpaid">ያልተከፈለ (Unpaid)</option>
+                    <option value="partial">በከፊል የተከፈለ (Partial)</option>
+                    <option value="paid">ሙሉ የተከፈለ (Paid)</option>
+                </select>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="mobile-cards" id="mobileCardsContainer"></div>
+
+            <!-- Desktop Table View -->
+            <div class="desktop-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ቀን</th>
+                            <th>ደረሰኝ #</th>
+                            <th id="thParty">ደንበኛ</th>
+                            <th>ዝርዝር</th>
+                            <th>ብዛት</th>
+                            <th>ነጠላ ዋጋ</th>
+                            <th>ጠቅላላ</th>
+                            <th>የተከፈለ</th>
+                            <th>ቀሪ ዕዳ</th>
+                            <th>የክፍያ ቀን</th>
+                            <th>ሁኔታ</th>
+                            <th>ድርጊት</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ledgerTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- GUIDE VIEW -->
+    <div id="appGuideView" style="display: none;">
+        <div class="card guide-content">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">📖 Smart Credit & Purchase Ledger System - የአጠቃቀም መመሪያ</h2>
+            
+            <p>ይህ ሲስተም የዱቤ ሽያጮችን እና ግዥዎችን በቀላሉ እና በግልጽ ለመከታተል የተዘጋጀ የዲጂታል መዝገብ ደብተር ነው።</p>
+
+            <h3>1. አዲስ መዝገብ ማስገባት (Adding Entries)</h3>
+            <ul>
+                <li>በላይኛው ክፍል ከሚገኙት ታቦች <strong>"የዱቤ ሽያጭ"</strong> ወይም <strong>"የዱቤ ግዥ"</strong> የሚለውን ይምረጡ።</li>
+                <li>የደረሰኝ ቁጥር፣ የደንበኛ/የአቅራቢ ስም፣ የዕቃ ዝርዝር፣ ብዛት እና ነጠላ ዋጋ ያስገቡ።</li>
+                <li>ከተከፈለው ገንዘብ ላይ የተቀበሉትን መጠን ያስገቡ (ምንም ካልተከፈለ 0 ያድርጉት)።</li>
+                <li>የክፍያ መፈጸሚያ ቀን (Due Date) መዝግበው <strong>"መዝግብ"</strong> የሚለውን ይጫኑ።</li>
+            </ul>
+
+            <h3>2. መረጃዎችን መፈለግ እና ማጣራት (Search & Filter)</h3>
+            <ul>
+                <li>በመፈለጊያ ሣጥኑ (Search input) ውስጥ የደንበኛ/አቅራቢ ስም፣ ወይም የደረሰኝ ቁጥር በመጻፍ በቀላሉ ማግኘት ይችላሉ።</li>
+                <li>በ <strong>Status Filter</strong> በኩል ያልተከፈሉ፣ በከፊል የተከፈሉ ወይም ሙሉ በሙሉ የተከፈሉ መዝገቦችን ለይተው ማየት ይችላሉ።</li>
+            </ul>
+
+            <h3>3. መዝገብ ማስተካከል እና መሰረዝ (Edit & Delete)</h3>
+            <ul>
+                <li>ማንኛውንም መዝገብ ለማስተካከል <strong>"አስተካክል" (Edit)</strong> የሚለውን በመጫን መረጃውን ቀይረው ማዘመን ይችላሉ።</li>
+                <li>መዝገቡን ሙሉ በሙሉ ለማጥፋት <strong>"ሰርዝ" (Delete)</strong> የሚለውን ይጫኑ።</li>
+            </ul>
+
+            <h3>4. መረጃዎችን ኤክስፖርት ማድረግ (Exporting Data)</h3>
+            <ul>
+                <li>በላይኛው ቀኝ በኩል የሚገኘውን <strong>"📊 Excel/CSV"</strong> ቁልፍ በመጫን ሁሉንም የመዝገብ መረጃዎች ወደ Excel Spreadsheet ማውረድ ይችላሉ።</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    const _DEV_SECURITY_SIGNATURE = {
+        author: "Bereket Haileselassie",
+        platform: "Ye-Buna",
+        timestamp: "2026-10-14",
+        verifyKey: "YB_SECURE_9988776655"
+    };
+    Object.freeze(_DEV_SECURITY_SIGNATURE);
+
+    let currentTab = 'sales';
+    let records = JSON.parse(localStorage.getItem('credit_ledger_mobile_db')) || {
+        sales: [
+            { id: 101, date: '2026-09-01', invNo: 'INV-1001', party: 'ቤኪ ዲጂታል', desc: 'የህትመት ወረቀት A4', qty: 10, unitPrice: 350, paid: 2000, dueDate: '2026-09-15' },
+            { id: 102, date: '2026-09-02', invNo: 'INV-1002', party: 'ኪራፕ አህመድ', desc: 'ባህር ህትመት', qty: 5, unitPrice: 1200, paid: 6000, dueDate: '2026-09-10' }
+        ],
+        purchases: []
+    };
+
+    document.getElementById('transDate').valueAsDate = new Date();
+    document.getElementById('dueDate').valueAsDate = new Date();
+
+    function saveData() {
+        localStorage.setItem('credit_ledger_mobile_db', JSON.stringify(records));
+        renderData();
+    }
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.getElementById('salesTabBtn').classList.toggle('active', tab === 'sales');
+        document.getElementById('purchasesTabBtn').classList.toggle('active', tab === 'purchases');
+        document.getElementById('guideTabBtn').classList.toggle('active', tab === 'guide');
+
+        const mainView = document.getElementById('appMainView');
+        const guideView = document.getElementById('appGuideView');
+
+        if (tab === 'guide') {
+            mainView.style.display = 'none';
+            guideView.style.display = 'block';
+        } else {
+            mainView.style.display = 'block';
+            guideView.style.display = 'none';
+
+            document.getElementById('formTitle').innerText = tab === 'sales' ? 'አዲስ የዱቤ ሽያጭ መዝግብ' : 'አዲስ የዱቤ ግዥ መዝግብ';
+            document.getElementById('partyLabel').innerText = tab === 'sales' ? 'የደንበኛ ስም (Customer Name)' : 'የአቅራቢ ስም (Supplier Name)';
+            document.getElementById('thParty').innerText = tab === 'sales' ? 'ደንበኛ' : 'አቅራቢ';
+            resetForm();
+            renderData();
+        }
+    }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        const editIndex = parseInt(document.getElementById('editIndex').value);
+        
+        const newRecord = {
+            id: editIndex > -1 ? records[currentTab][editIndex].id : Date.now(),
+            date: document.getElementById('transDate').value,
+            invNo: document.getElementById('invNo').value,
+            party: document.getElementById('partyName').value,
+            desc: document.getElementById('itemDesc').value,
+            qty: parseFloat(document.getElementById('qty').value) || 0,
+            unitPrice: parseFloat(document.getElementById('unitPrice').value) || 0,
+            paid: parseFloat(document.getElementById('amountPaid').value) || 0,
+            dueDate: document.getElementById('dueDate').value
+        };
+
+        if (editIndex > -1) {
+            records[currentTab][editIndex] = newRecord;
+        } else {
+            records[currentTab].push(newRecord);
+        }
+
+        saveData();
+        resetForm();
+    }
+
+    function editRecord(id) {
+        const index = records[currentTab].findIndex(r => r.id === id);
+        if (index > -1) {
+            const r = records[currentTab][index];
+            document.getElementById('transDate').value = r.date;
+            document.getElementById('invNo').value = r.invNo;
+            document.getElementById('partyName').value = r.party;
+            document.getElementById('itemDesc').value = r.desc;
+            document.getElementById('qty').value = r.qty;
+            document.getElementById('unitPrice').value = r.unitPrice;
+            document.getElementById('amountPaid').value = r.paid;
+            document.getElementById('dueDate').value = r.dueDate;
+            document.getElementById('editIndex').value = index;
+            document.getElementById('submitBtn').innerText = 'መዝገብ አሻሽል (Update)';
+            document.getElementById('cancelEditBtn').style.display = 'inline-block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function resetForm() {
+        document.getElementById('ledgerForm').reset();
+        document.getElementById('editIndex').value = '-1';
+        document.getElementById('submitBtn').innerText = 'መዝግብ (Save Entry)';
+        document.getElementById('cancelEditBtn').style.display = 'none';
+        document.getElementById('transDate').valueAsDate = new Date();
+        document.getElementById('dueDate').valueAsDate = new Date();
+    }
+
+    function deleteRecord(id) {
+        if(confirm('ይህንን መዝገብ በእርግጥ መሰረዝ ይፈልጋሉ?')) {
+            records[currentTab] = records[currentTab].filter(r => r.id !== id);
+            saveData();
+        }
+    }
+
+    function formatETB(num) {
+        return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ETB';
+    }
+
+    function renderData() {
+        const mobileContainer = document.getElementById('mobileCardsContainer');
+        const tbody = document.getElementById('ledgerTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+
+        const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
+        const selectedStatus = statusFilter ? statusFilter.value : 'all';
+        
+        mobileContainer.innerHTML = '';
+        tbody.innerHTML = '';
+
+        let totalAmtSum = 0;
+        let totalPaidSum = 0;
+        let totalBalSum = 0;
+
+        // Calculate summary for all records in the tab
+        records[currentTab].forEach(r => {
+            const total = r.qty * r.unitPrice;
+            const balance = total - r.paid;
+            totalAmtSum += total;
+            totalPaidSum += r.paid;
+            totalBalSum += balance;
+        });
+
+        // Filter data based on search term and payment status
+        const filteredData = records[currentTab].filter(r => {
+            const total = r.qty * r.unitPrice;
+            const balance = total - r.paid;
+            
+            let status = 'unpaid';
+            if (balance <= 0) status = 'paid';
+            else if (r.paid > 0) status = 'partial';
+
+            const matchesSearch = r.party.toLowerCase().includes(searchQuery) ||
+                                  r.invNo.toLowerCase().includes(searchQuery) ||
+                                  r.desc.toLowerCase().includes(searchQuery);
+            const matchesStatus = selectedStatus === 'all' || status === selectedStatus;
+
+            return matchesSearch && matchesStatus;
+        });
+
+        if(filteredData.length === 0) {
+            mobileContainer.innerHTML = '<p style="text-align:center; color:#718096; padding:20px;">ምንም መዝገብ አልተገኘም።</p>';
+            tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; color:#718096; padding:20px;">ምንም መዝገብ አልተገኘም።</td></tr>';
+        }
+
+        filteredData.forEach(r => {
+            const total = r.qty * r.unitPrice;
+            const balance = total - r.paid;
+
+            let statusBadge = '';
+            if (balance <= 0) {
+                statusBadge = '<span class="badge badge-paid">ሙሉ የተከፈለ</span>';
+            } else if (r.paid > 0) {
+                statusBadge = '<span class="badge badge-partial">በከፊል የተከፈለ</span>';
+            } else {
+                statusBadge = '<span class="badge badge-unpaid">ያልተከፈለ</span>';
+            }
+
+            // 1. Mobile Card
+            const card = document.createElement('div');
+            card.className = 'record-card';
+            card.innerHTML = `
+                <div class="record-header">
+                    <span class="record-title">${r.party} (${r.invNo})</span>
+                    <span class="record-date">${r.date}</span>
+                </div>
+                <div class="record-body">
+                    <div class="record-item"><span>ዝርዝር (Item)</span><strong>${r.desc}</strong></div>
+                    <div class="record-item"><span>ብዛት x ዋጋ</span>${r.qty} × ${r.unitPrice.toFixed(2)}</div>
+                    <div class="record-item"><span>ጠቅላላ (Total)</span><strong style="color:var(--primary);">${total.toFixed(2)}</strong></div>
+                    <div class="record-item"><span>ቀሪ ዕዳ (Balance)</span><strong style="color:var(--danger);">${balance.toFixed(2)}</strong></div>
+                    <div class="record-item"><span>የክፍያ ቀን</span>${r.dueDate}</div>
+                </div>
+                <div class="record-footer">
+                    ${statusBadge}
+                    <div>
+                        <button class="action-btn edit-btn" onclick="editRecord(${r.id})">አስተካክል</button>
+                        <button class="action-btn" onclick="deleteRecord(${r.id})">ሰርዝ</button>
+                    </div>
+                </div>
+            `;
+            mobileContainer.appendChild(card);
+
+            // 2. Desktop Row
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${r.date}</td>
+                <td><strong>${r.invNo}</strong></td>
+                <td>${r.party}</td>
+                <td>${r.desc}</td>
+                <td>${r.qty}</td>
+                <td>${r.unitPrice.toFixed(2)}</td>
+                <td><strong>${total.toFixed(2)}</strong></td>
+                <td style="color:#2f855a">${r.paid.toFixed(2)}</td>
+                <td style="color:#c53030"><strong>${balance.toFixed(2)}</strong></td>
+                <td>${r.dueDate}</td>
+                <td>${statusBadge}</td>
+                <td>
+                    <button class="action-btn edit-btn" onclick="editRecord(${r.id})">አስተካክል</button>
+                    <button class="action-btn" onclick="deleteRecord(${r.id})">ሰርዝ</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById('totalAmount').innerText = formatETB(totalAmtSum);
+        document.getElementById('totalPaid').innerText = formatETB(totalPaidSum);
+        document.getElementById('totalBalance').innerText = formatETB(totalBalSum);
+    }
+
+    function exportCSV() {
+        let csvData = "\uFEFFቀን,ደረሰኝ ቁጥር,ስም,ዝርዝር,ብዛት,ነጠላ ዋጋ,ጠቅላላ ዋጋ,የተከፈለ,ቀሪ ዕዳ,የክፍያ ቀን,ስርዓት ፊርማ: " + _DEV_SECURITY_SIGNATURE.verifyKey + "\n";
+        records[currentTab].forEach(r => {
+            const total = r.qty * r.unitPrice;
+            const bal = total - r.paid;
+            csvData += `"${r.date}","${r.invNo}","${r.party}","${r.desc}",${r.qty},${r.unitPrice},${total},${r.paid},${bal},"${r.dueDate}"\n`;
+        });
+
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute("download", `Credit_${currentTab}_Ledger.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    renderData();
+</script>
+
+</body>
+</html>
